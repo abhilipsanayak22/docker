@@ -1,0 +1,90 @@
+Docker
+	-Images
+		- Containerized application is called image.
+		- Image is used to create instances of application
+		- the running instance is called container
+		- Every container have a unique name and ID
+		- Every image also have a unique name and ID
+		
+
+
+
+	- Repositories
+		- is a storage place fpr code and data.
+		- A docker image repository is a place to store images
+		- Repostories can be:
+			 Local
+				- store locally in Dev machine
+				- Local repo images can be anything without repo name
+			Cloud
+				-publicly accessibke repository
+				- Anyone can access it from here
+				Two types:
+					- Public
+						- When uploading into a public repo it is accessibleto all 							without anu credentials
+						- DockerHub is an example for  public repo
+					- Private
+						- Secured repository
+						- It needs credentials to push amd pull images
+						- Azure Container Registry (ACR), Elastic Container Registry 							(ECR)
+docker images
+	- List all images located in local repo
+docker run [-p host-port:container-port -d --name nameofContainer --rm imagename
+	- --name = used to assign a anme for the running container. If not used docker will assign a random 		name to container.
+	- -d = detached  mode
+	- --rm = remove the container when stopped
+	- -p= map host machine port number to contaner app port
+docker ps
+	- List all running containers
+docker stop <containerId/container name>
+
+docker ps -a
+	- List all running an stopped containers
+
+docker rm <containerId/name>
+	- Remove the stopped containers
+docker rm -f <containerID/name>
+	- Stop and remove running containers
+
+-p(monday)
+
+Building Images
+	- A set of commands need to be executed
+	- Commands can be written in to a file called :Docker File"
+	- The instruction to build an image may start with the following keywords:
+		- From <baseimagename>
+			-  Specify the base image for our application
+			- eg: From nginx:latest
+		- LABEL
+			<key>=<value>
+			- used to add meta information for image such as author, info, version, company etc.
+		- RUN <cmd> <args>
+			- Execute a command building the image.
+			- RUN dotnet restore && RUN dotnet build && RUN dotnet publish
+		- WORKDIR <dir_path>
+			- Set the current working directory inside the the container
+			- WORKDIR /usr/app  for linux
+			- WORKDIR C:\Users\myapp for Windows
+		- COPY <source files/pattern> <dest_path> or <-from <stage>(if from external source) source files/pattern> <dest_path>
+			- Copy files form local machine to docker image path
+			- COPY ./*.jpg ./
+		- ENV <environmentvaribalename <value>
+			- Used to set the environment variable value for the app
+		- EXPOSE <port-number)
+			- Specify the port number to opened
+		- CMD <command> <args>
+			- Execute commands when the container is created
+			= When image is running
+		- ENTRY POINT <cmd> <args>
+			- Execute commands when the container is created
+			- When image is runnning
+			- It is used to specify the starting command of application
+- Building docker images
+	- docker build -t <imagename:tag> <dockerfilepath>
+-Containerizing .NET Core apps
+	- Download SDK and runtime images
+		docker pull mcr.microsoft.com/dotnet/core/aspnet:2.2.7-bionic
+		docker pull mcr.microsoft.com/dotnet/core/sdk:2.2.402-bionic
+	- Remove docker images
+		docker rmi <imageid/name>
+		docker rmi [-f] <imageid/name>
